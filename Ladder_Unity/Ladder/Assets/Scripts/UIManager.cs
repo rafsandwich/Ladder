@@ -19,12 +19,14 @@ public class UIManager : MonoBehaviour
     public Button move2Button;
     public Image lad1Image;
     public Image lad2Image;
-    public Sprite lad1Sprite;
-    public Sprite lad2Sprite;
+    // public Sprite lad1Sprite;
+    public Sprite[] ladSprites;
 
-    void Start()
+    //void Start()
+
+    public void InitialiseUI()
     {
-        // Initialize UI with lad info
+        // Initialise UI with lad info
         lad1NameText.text = lad1.ladName;
         lad1HPBar.maxValue = lad1.hp;
         lad1HPBar.value = lad1.hp;
@@ -36,8 +38,9 @@ public class UIManager : MonoBehaviour
         lad2HPText.text = lad2.hp.ToString();
 
         // Set lad images 
-        lad1Image.sprite = lad1Sprite;
-        lad2Image.sprite = lad2Sprite;
+        //lad1Image.sprite = lad1Sprite;
+        lad1Image.sprite = GetLadSprite(lad1.ladName);
+        lad2Image.sprite = GetLadSprite(lad2.ladName);
 
         // Add listeners to move buttons
         move1Button.onClick.AddListener(() => OnMoveButtonClicked("Move1"));
@@ -71,5 +74,16 @@ public class UIManager : MonoBehaviour
     private void OnMoveButtonClicked(string move)
     {
         FindObjectOfType<GameManager>().PlayerMoveSelected(move);
+    }
+    private Sprite GetLadSprite(string ladName)
+    {
+        foreach (Sprite sprite in ladSprites)
+        {
+            if (sprite.name == ladName)
+            {
+                return sprite;
+            }
+        }
+        return null;
     }
 }

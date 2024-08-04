@@ -4,26 +4,40 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public Lad lad1;
-    public Lad lad2;
+    private Lad lad1;
+    private Lad lad2;
     public UIManager uiManager;
 
     private string playerChosenMove = "";
     private bool playerMoveChosen = false;
 
-    void Start()
+    //void Start()
+    //{
+    //    // name, health, speed, move1 dmg, move2 dmg
+
+    //    lad1.Initialise("Fish", 15, 10, 13, 6);
+    //    lad2.Initialise("Kafka", 22, 5, 8, 11);
+
+    //    // lad2.Initialise("Seagull", 17, 9, 12, 9);
+    //    // lad2.Initialise("Dirt", 35, 2, 5, 10);
+    //    // lad2.Initialise("Bed", 40, 1, 4, 7);
+    //    // lad2.Initialise("Ypoch", 23, 8, 6, 12);
+
+    //    uiManager.UpdateHPBars();
+    //    StartCoroutine(Battle());
+    //}
+
+    public void InitialiseBattle(Lad userLad, Lad computerLad)
     {
-        // name, health, speed, move1 dmg, move2 dmg
+        lad1 = userLad;
+        lad2 = computerLad;
 
-        lad1.Initialize("Fish", 15, 10, 13, 6);
-        lad2.Initialize("Kafka", 22, 5, 8, 11);
+        uiManager.lad1 = lad1;
+        uiManager.lad2 = lad2;
 
-        // lad2.Initialize("Seagull", 17, 9, 12, 9);
-        // lad2.Initialize("Dirt", 35, 2, 5, 10);
-        // lad2.Initialize("Bed", 40, 1, 4, 7);
-        // lad2.Initialize("Ypoch", 23, 8, 6, 12);
-
+        uiManager.InitialiseUI();
         uiManager.UpdateHPBars();
+
         StartCoroutine(Battle());
     }
 
@@ -63,11 +77,22 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlayerTurn(Lad player, Lad enemy)
     {
-        playerMoveChosen = false;
+        bool playerMoveChosen = false;
+        string playerChosenMove = "";
 
         // Enable move buttons
         uiManager.move1Button.interactable = true;
         uiManager.move2Button.interactable = true;
+
+        uiManager.move1Button.onClick.AddListener(() => {
+            playerChosenMove = "Move1";
+            playerMoveChosen = true;
+        });
+
+        uiManager.move2Button.onClick.AddListener(() => {
+            playerChosenMove = "Move2";
+            playerMoveChosen = true;
+        });
 
         while (!playerMoveChosen)
         {
