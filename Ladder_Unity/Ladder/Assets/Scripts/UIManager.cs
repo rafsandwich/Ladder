@@ -17,10 +17,10 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI lad2HPText;
     public Button move1Button;
     public Button move2Button;
-    public Image lad1Image;
-    public Image lad2Image;
+    //public Image lad1Image;
+    //public Image lad2Image;
     // public Sprite lad1Sprite;
-    public Sprite[] ladSprites;
+    //public Sprite[] ladSprites;
 
     //void Start()
 
@@ -39,8 +39,9 @@ public class UIManager : MonoBehaviour
 
         // Set lad images 
         //lad1Image.sprite = lad1Sprite;
-        lad1Image.sprite = GetLadSprite(lad1.ladName);
-        lad2Image.sprite = GetLadSprite(lad2.ladName);
+
+        //lad1Image.sprite = GetLadSprite(lad1.ladName);
+        //lad2Image.sprite = GetLadSprite(lad2.ladName);
 
         // Add listeners to move buttons
         move1Button.onClick.AddListener(() => OnMoveButtonClicked("Move1"));
@@ -75,15 +76,15 @@ public class UIManager : MonoBehaviour
     {
         FindObjectOfType<GameManager>().PlayerMoveSelected(move);
     }
-    private Sprite GetLadSprite(string ladName)
-    {
-        foreach (Sprite sprite in ladSprites)
-        {
-            if (sprite.name == ladName)
-            {
-                return sprite;
-            }
-        }
-        return null;
-    }
+    //private Sprite GetLadSprite(string ladName)
+    //{
+    //    foreach (Sprite sprite in ladSprites)
+    //    {
+    //        if (sprite.name == ladName)
+    //        {
+    //            return sprite;
+    //        }
+    //    }
+    //    return null;
+    //}
 }
