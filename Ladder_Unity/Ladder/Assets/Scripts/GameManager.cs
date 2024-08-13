@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
         lad1 = userLad;
         lad2 = computerLad;
 
+        uiManager.ResetUI();
+
         uiManager.lad1 = lad1;
         uiManager.lad2 = lad2;
 
@@ -67,10 +69,12 @@ public class GameManager : MonoBehaviour
 
         if (lad1.IsDead())
         {
+            uiManager.ShowGameOver(lad2.ladName + " wins!");
             Debug.Log(lad2.ladName + " wins!");
         }
         else if (lad2.IsDead())
         {
+            uiManager.ShowGameOver(lad1.ladName + " wins!");
             Debug.Log(lad1.ladName + " wins!");
         }
     }
@@ -117,5 +121,27 @@ public class GameManager : MonoBehaviour
         string move = Random.Range(0, 2) == 0 ? "Move1" : "Move2";
         enemy.Attack(player, move);
         yield return new WaitForSeconds(1);  // wait 1 second to simulate delay
+    }
+
+    public void ReturnToSelectionScreen()
+    {
+        Debug.Log("Destroying Lad1");
+        Destroy(lad1.gameObject);
+
+        Debug.Log("Destroying Lad2");
+        Destroy(lad2.gameObject);
+
+        //Debug.Log("Resetting Selection");
+        //FindObjectOfType<SelectionScript>().ResetSelection();    
+
+        SelectionScript selectionScript = FindObjectOfType<SelectionScript>();
+        if (selectionScript != null)
+        {
+            Debug.Log("Resetting Selection");
+            selectionScript.ResetSelection();
+        }
+        else
+        { Debug.Log("where is selection script!!"); } // TO FIX WHERE IS IT?? HELLO
+
     }
 }

@@ -46,4 +46,13 @@ public class SelectionScript : MonoBehaviour
         selectionCanvas.SetActive(false);
         battleCanvas.SetActive(true);
     }
+
+    public void ResetSelection()
+    {
+        Debug.Log("Activating selection screen");
+        selectionCanvas.SetActive(true);
+
+        Debug.Log("Deactivating battle screen");
+        battleCanvas.SetActive(false);
+    }
 }

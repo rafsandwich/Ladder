@@ -17,12 +17,20 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI lad2HPText;
     public Button move1Button;
     public Button move2Button;
+
+    public TextMeshProUGUI gameOverText;
+    public Button restartButton;
+
     //public Image lad1Image;
     //public Image lad2Image;
     // public Sprite lad1Sprite;
     //public Sprite[] ladSprites;
 
-    //void Start()
+    void Start()
+    {
+        restartButton.onClick.AddListener(() => FindObjectOfType<GameManager>().ReturnToSelectionScreen());
+        ResetUI();
+    }
 
     public void InitialiseUI()
     {
@@ -70,6 +78,19 @@ public class UIManager : MonoBehaviour
             lad2HPBar.value = 0;
             lad2HPText.text = "0";
         }
+    }
+
+    public void ShowGameOver(string message)
+    {
+        gameOverText.text = message;
+        gameOverText.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(true);
+    }
+
+    public void ResetUI()
+    {
+        gameOverText.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
     }
 
     private void OnMoveButtonClicked(string move)
