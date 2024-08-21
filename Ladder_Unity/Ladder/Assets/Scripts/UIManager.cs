@@ -54,6 +54,9 @@ public class UIManager : MonoBehaviour
         // Add listeners to move buttons
         move1Button.onClick.AddListener(() => OnMoveButtonClicked("Move1"));
         move2Button.onClick.AddListener(() => OnMoveButtonClicked("Move2"));
+
+        //move1Button.onClick.AddListener(() => OnMoveButtonClicked(lad1.moves[0].moveName));
+        //move2Button.onClick.AddListener(() => OnMoveButtonClicked(lad1.moves[1].moveName));
     }
 
     public void UpdateHPBars()

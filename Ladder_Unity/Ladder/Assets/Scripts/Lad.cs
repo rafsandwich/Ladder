@@ -18,8 +18,9 @@ public class Lad : MonoBehaviour
     public int spd;
     //public Dictionary<string, int> moves = new Dictionary<string, int>();
     public List<Move> moves = new List<Move>();
+    public string role;
 
-    public void Initialise(string name, int health, int speed, List<Move> moveList)
+    public void Initialise(string name, int health, int speed, List<Move> moveList, string role)
     {
         ladName = name;
         hp = health;
@@ -27,7 +28,13 @@ public class Lad : MonoBehaviour
         moves.Clear();
         //moves.Add("Move1", move1);
         //moves.Add("Move2", move2);
+
         moves = moveList;
+
+        Debug.Log($"Initializing Lad: {ladName} with {moves.Count} moves and role {role}");
+
+
+        this.role = role;
     }
 
     public void Attack(Lad other, string move)

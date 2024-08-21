@@ -29,6 +29,18 @@ public class GameManager : MonoBehaviour
 
     public void InitialiseBattle(Lad userLad, Lad computerLad)
     {
+
+        // debugging to ensure moves are intact
+        Debug.Log($"User Lad {userLad.ladName} has {userLad.moves.Count} moves");
+        Debug.Log($"Computer Lad {computerLad.ladName} has {computerLad.moves.Count} moves");
+
+        // assigning roles to lads
+        //userLad.Initialise(userLad.ladName, userLad.hp, userLad.spd, userLad.moves, "Player");
+        //computerLad.Initialise(computerLad.ladName, computerLad.hp, computerLad.spd, computerLad.moves, "Opponent");
+
+        userLad.role = "Player";
+        computerLad.role = "Opponent";
+
         lad1 = userLad;
         lad2 = computerLad;
 
@@ -69,13 +81,13 @@ public class GameManager : MonoBehaviour
 
         if (lad1.IsDead())
         {
-            uiManager.ShowGameOver(lad2.ladName + " wins!");
-            Debug.Log(lad2.ladName + " wins!");
+            uiManager.ShowGameOver(lad2.ladName + " (" + lad2.role + ") wins!");
+            Debug.Log(lad2.ladName + " (" + lad2.role + ") wins!");
         }
         else if (lad2.IsDead())
         {
-            uiManager.ShowGameOver(lad1.ladName + " wins!");
-            Debug.Log(lad1.ladName + " wins!");
+            uiManager.ShowGameOver(lad1.ladName + " (" + lad1.role + ") wins!");
+            Debug.Log(lad1.ladName + " (" + lad1.role + ") wins!");
         }
     }
 
@@ -141,7 +153,7 @@ public class GameManager : MonoBehaviour
             selectionScript.ResetSelection();
         }
         else
-        { Debug.Log("where is selection script!!"); } // TO FIX WHERE IS IT?? HELLO
+        { Debug.Log("where is selection script!!"); } // we found it!
 
     }
 }
