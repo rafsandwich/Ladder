@@ -59,9 +59,22 @@ public class GameManager : MonoBehaviour
     {
         while (lad1.hp > 0 && lad2.hp > 0)
         {
-            if (lad1.spd > lad2.spd)
+            // 1. Always start by letting the player choose their move
+            yield return StartCoroutine(PlayerTurn(lad1, lad2));
+
+            // 2. If the player's lad is dead after the enemy's turn, end the battle
+            if (lad1.IsDead())
             {
-                yield return PlayerTurn(lad1, lad2);
+                uiManager.ShowGameOver(lad2.ladName + " (" + lad2.role + ") wins!");
+                Debug.Log(lad2.ladName + " (" + lad2.role + ") wins!");
+                yield break;
+            }
+
+            // 3. Determine the move order based on speed
+            if (lad1.spd >= lad2.spd)
+            {
+                // Player's Lad outspeeds so moves first
+                lad1.Attack(lad2, playerChosenMove);
                 if (!lad2.IsDead())
                 {
                     yield return EnemyTurn(lad2, lad1);
@@ -69,25 +82,29 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                // Enemy's Lad outspeeds so moves first
                 yield return EnemyTurn(lad2, lad1);
                 if (!lad1.IsDead())
                 {
-                    yield return PlayerTurn(lad1, lad2);
+                    lad1.Attack(lad2, playerChosenMove);
                 }
             }
 
             uiManager.UpdateHPBars();
-        }
 
-        if (lad1.IsDead())
-        {
-            uiManager.ShowGameOver(lad2.ladName + " (" + lad2.role + ") wins!");
-            Debug.Log(lad2.ladName + " (" + lad2.role + ") wins!");
-        }
-        else if (lad2.IsDead())
-        {
-            uiManager.ShowGameOver(lad1.ladName + " (" + lad1.role + ") wins!");
-            Debug.Log(lad1.ladName + " (" + lad1.role + ") wins!");
+            // 4. If either lad is dead after all moves are done, end the battle
+            if (lad1.IsDead())
+            {
+                uiManager.ShowGameOver(lad2.ladName + " (" + lad2.role + ") wins!");
+                Debug.Log(lad2.ladName + " (" + lad2.role + ") wins!");
+                yield break;
+            }
+            else if (lad2.IsDead())
+            {
+                uiManager.ShowGameOver(lad1.ladName + " (" + lad1.role + ") wins!");
+                Debug.Log(lad1.ladName + " (" + lad1.role + ") wins!");
+                yield break;
+            }
         }
     }
 
@@ -115,7 +132,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        player.Attack(enemy, playerChosenMove);
+        //player.Attack(enemy, playerChosenMove);
 
         // Disable move buttons
         uiManager.move1Button.interactable = false;

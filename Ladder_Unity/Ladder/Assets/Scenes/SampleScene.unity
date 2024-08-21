@@ -1013,6 +1013,7 @@ MonoBehaviour:
   hp: 0
   spd: 0
   moves: []
+  role: 
 --- !u!4 &324756231
 Transform:
   m_ObjectHideFlags: 0
@@ -1098,7 +1099,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Restart?
+  m_Text: Back to menu?
 --- !u!222 &342363916
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1560,6 +1561,7 @@ MonoBehaviour:
   hp: 0
   spd: 0
   moves: []
+  role: 
 --- !u!4 &524524916
 Transform:
   m_ObjectHideFlags: 0
@@ -3505,7 +3507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1348905000
 RectTransform:
   m_ObjectHideFlags: 0
