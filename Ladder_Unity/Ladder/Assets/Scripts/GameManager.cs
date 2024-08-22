@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -118,12 +119,12 @@ public class GameManager : MonoBehaviour
         uiManager.move2Button.interactable = true;
 
         uiManager.move1Button.onClick.AddListener(() => {
-            playerChosenMove = "Move1";
+            playerChosenMove = uiManager.move1Button.GetComponentInChildren<Text>().text;
             playerMoveChosen = true;
         });
 
         uiManager.move2Button.onClick.AddListener(() => {
-            playerChosenMove = "Move2";
+            playerChosenMove = uiManager.move2Button.GetComponentInChildren<Text>().text;
             playerMoveChosen = true;
         });
 
@@ -147,7 +148,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator EnemyTurn(Lad enemy, Lad player)
     {
-        string move = Random.Range(0, 2) == 0 ? "Move1" : "Move2";
+        //string move = Random.Range(0, 2) == 0 ? "Move1" : "Move2";
+        string move = enemy.moves[Random.Range(0, enemy.moves.Count)].moveName;
         enemy.Attack(player, move);
         yield return new WaitForSeconds(1);  // wait 1 second to simulate delay
     }

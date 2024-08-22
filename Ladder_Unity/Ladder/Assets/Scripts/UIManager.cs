@@ -52,11 +52,53 @@ public class UIManager : MonoBehaviour
         //lad2Image.sprite = GetLadSprite(lad2.ladName);
 
         // Add listeners to move buttons
-        move1Button.onClick.AddListener(() => OnMoveButtonClicked("Move1"));
-        move2Button.onClick.AddListener(() => OnMoveButtonClicked("Move2"));
+        //move1Button.onClick.AddListener(() => OnMoveButtonClicked("Move1"));
+        //move2Button.onClick.AddListener(() => OnMoveButtonClicked("Move2"));
 
-        //move1Button.onClick.AddListener(() => OnMoveButtonClicked(lad1.moves[0].moveName));
-        //move2Button.onClick.AddListener(() => OnMoveButtonClicked(lad1.moves[1].moveName));
+        move1Button.onClick.AddListener(() => OnMoveButtonClicked(lad1.moves[0].moveName));
+        move2Button.onClick.AddListener(() => OnMoveButtonClicked(lad1.moves[1].moveName));
+
+        UpdateMoveButtons(lad1.moves);
+    }
+
+    public void UpdateMoveButtons(List<Move> moves)
+    {
+        Debug.Log("Updating Move Buttons");
+        Debug.Log($"Number of moves: {moves.Count}");
+
+        if (moves.Count > 0)
+        {
+            Debug.Log($"Move1: {moves[0].moveName}");
+        }
+
+        if (moves.Count > 1)
+        {
+            Debug.Log($"Move2: {moves[1].moveName}");
+        }
+
+        if (move1Button != null && move1Button.GetComponentInChildren<Text>() != null)
+        {
+            if (moves.Count > 0)
+            {
+                move1Button.GetComponentInChildren<Text>().text = moves[0].moveName;
+            }
+        }
+        else
+        {
+            Debug.LogError("Move1 button text component is missing or no btn");
+        }
+
+        if (move2Button != null && move2Button.GetComponentInChildren<Text>() != null)
+        {
+            if (moves.Count > 1)
+            {
+                move2Button.GetComponentInChildren<Text>().text = moves[1].moveName;
+            }
+        }
+        else
+        {
+            Debug.LogError("Move2 button text component is missing or no btn");
+        }
     }
 
     public void UpdateHPBars()
@@ -92,8 +134,29 @@ public class UIManager : MonoBehaviour
 
     public void ResetUI()
     {
+        Debug.Log("Resetting UI");
         gameOverText.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
+
+        Debug.Log("Resetting Move Buttons");
+
+        if (move1Button != null && move1Button.GetComponentInChildren<Text>() != null)
+        {
+            move1Button.GetComponentInChildren<Text>().text = "Move1";
+        }
+        else
+        {
+            Debug.LogError("Move1 button text component is missing or no btn");
+        }
+
+        if (move2Button != null && move2Button.GetComponentInChildren<Text>() != null)
+        {
+            move2Button.GetComponentInChildren<Text>().text = "Move2";
+        }
+        else
+        {
+            Debug.LogError("Move2 button text component is missing or no btn");
+        }
     }
 
     private void OnMoveButtonClicked(string move)

@@ -29,7 +29,7 @@ public class Lad : MonoBehaviour
         //moves.Add("Move1", move1);
         //moves.Add("Move2", move2);
 
-        moves = moveList;
+        moves = new List<Move>(moveList);
 
         Debug.Log($"Initializing Lad: {ladName} with {moves.Count} moves and role {role}");
 
