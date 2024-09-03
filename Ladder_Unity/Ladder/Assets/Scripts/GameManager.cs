@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     private string playerChosenMove = "";
     private bool playerMoveChosen = false;
 
+    public Button move1Button;
+    public Button move2Button;
+
     //void Start()
     //{
     //    // name, health, speed, move1 dmg, move2 dmg
@@ -52,6 +55,9 @@ public class GameManager : MonoBehaviour
 
         uiManager.InitialiseUI();
         uiManager.UpdateHPBars();
+
+        move1Button = FindObjectOfType<SelectionScript>().userMoveButton1.GetComponent<Button>();
+        move2Button = FindObjectOfType<SelectionScript>().userMoveButton2.GetComponent<Button>();
 
         StartCoroutine(Battle());
     }
@@ -111,20 +117,20 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlayerTurn(Lad player, Lad enemy)
     {
-        bool playerMoveChosen = false;
-        string playerChosenMove = "";
+        playerMoveChosen = false;
+        playerChosenMove = "";
 
         // Enable move buttons
-        uiManager.move1Button.interactable = true;
-        uiManager.move2Button.interactable = true;
+        move1Button.interactable = true;
+        move2Button.interactable = true;
 
-        uiManager.move1Button.onClick.AddListener(() => {
-            playerChosenMove = uiManager.move1Button.GetComponentInChildren<Text>().text;
+        move1Button.onClick.AddListener(() => {
+            playerChosenMove = move1Button.GetComponentInChildren<Text>().text;
             playerMoveChosen = true;
         });
 
-        uiManager.move2Button.onClick.AddListener(() => {
-            playerChosenMove = uiManager.move2Button.GetComponentInChildren<Text>().text;
+        move2Button.onClick.AddListener(() => {
+            playerChosenMove = move2Button.GetComponentInChildren<Text>().text;
             playerMoveChosen = true;
         });
 
@@ -133,11 +139,9 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        //player.Attack(enemy, playerChosenMove);
-
-        // Disable move buttons
-        uiManager.move1Button.interactable = false;
-        uiManager.move2Button.interactable = false;
+        // Disable move buttons after a move is chosen
+        move1Button.interactable = false;
+        move2Button.interactable = false;
     }
 
     public void PlayerMoveSelected(string move)
