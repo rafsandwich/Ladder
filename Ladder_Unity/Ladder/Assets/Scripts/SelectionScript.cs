@@ -17,10 +17,8 @@ public class SelectionScript : MonoBehaviour
     public GameObject selectionCanvas;
     public GameObject battleCanvas;
 
-    public GameObject[] moveButtonPrefabs;
-    public Transform moveButtonParentPos;
-    public GameObject userMoveButton1;
-    public GameObject userMoveButton2;
+    public Button[] move1Buttons;
+    public Button[] move2Buttons;
 
     private GameObject playerLad;
     private GameObject enemyLad;
@@ -29,6 +27,8 @@ public class SelectionScript : MonoBehaviour
 
     void Start()
     {
+        battleCanvas.SetActive(false);
+
         // Populate dropdowns with lad names
         List<string> ladNames = new List<string>();
         foreach (GameObject ladPrefab in ladPrefabs)
@@ -40,36 +40,40 @@ public class SelectionScript : MonoBehaviour
 
         startBattleButton.onClick.AddListener(OnStartBattle);
 
+        DisableAllMoveButtons();
+
         selectionCanvas.SetActive(true);
-        battleCanvas.SetActive(false);
     }
 
     void OnStartBattle()
     {
         // Instantiate selected lads at spawn points
-        GameObject playerLad = Instantiate(ladPrefabs[playerLadDropdown.value], playerSpawnPoint.position, Quaternion.identity);
-        GameObject enemyLad = Instantiate(ladPrefabs[enemyLadDropdown.value], enemySpawnPoint.position, Quaternion.identity);
+        playerLad = Instantiate(ladPrefabs[playerLadDropdown.value], playerSpawnPoint.position, Quaternion.identity);
+        enemyLad = Instantiate(ladPrefabs[enemyLadDropdown.value], enemySpawnPoint.position, Quaternion.identity);
 
-        InstantiateMoveButtons(playerLadDropdown.value);
+        EnableUserMoveButtons(playerLadDropdown.value);
 
         // Pass instantiated lads to GameManager
-        FindObjectOfType<GameManager>().InitialiseBattle(playerLad.GetComponent<Lad>(), enemyLad.GetComponent<Lad>());
+        FindObjectOfType<GameManager>().InitialiseBattle(playerLad.GetComponent<Lad>(), enemyLad.GetComponent<Lad>(), playerLadDropdown.value);
 
         selectionCanvas.SetActive(false);
         battleCanvas.SetActive(true);
     }
 
-    void InstantiateMoveButtons(int ladIndex)
+    void EnableUserMoveButtons(int ladIndex)
     {
+        DisableAllMoveButtons();
+
+        move1Buttons[ladIndex].gameObject.SetActive(true);
+        move2Buttons[ladIndex].gameObject.SetActive(true);
+
         // Destroy previous move buttons if any exist
-        if (userMoveButton1 != null) Destroy(userMoveButton1);
-        if (userMoveButton2 != null) Destroy(userMoveButton2);
+        //if (userMoveButton1 != null) Destroy(userMoveButton1);
+        //if (userMoveButton2 != null) Destroy(userMoveButton2);
 
         // Instantiate new move buttons based on the selected Lad
-        userMoveButton1 = Instantiate(moveButtonPrefabs[ladIndex * 2], moveButtonParentPos);
-        userMoveButton2 = Instantiate(moveButtonPrefabs[ladIndex * 2 + 1], moveButtonParentPos);
-
-        // transform buttons here?
+        //userMoveButton1 = Instantiate(moveButtonPrefabs[ladIndex * 2], moveButtonParentPos);
+        //userMoveButton2 = Instantiate(moveButtonPrefabs[ladIndex * 2 + 1], moveButtonParentPos);
     }
 
     public void ResetSelection()
@@ -79,5 +83,24 @@ public class SelectionScript : MonoBehaviour
 
         Debug.Log("Deactivating battle screen");
         battleCanvas.SetActive(false);
+
+        //if (playerLad != null) Destroy(playerLad);
+        //if (enemyLad != null) Destroy(enemyLad);
+
+        //DisableAllMoveButtons();
+    }
+
+    void DisableAllMoveButtons()
+    {
+        foreach (var button in move1Buttons)
+        {
+            button.gameObject.SetActive(false);
+        }
+
+        foreach (var button in move2Buttons)
+        {
+            button.gameObject.SetActive(false);
+        }
+
     }
 }

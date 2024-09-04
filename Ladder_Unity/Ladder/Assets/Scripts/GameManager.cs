@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private string playerChosenMove = "";
     private bool playerMoveChosen = false;
 
+    // set during InitialiseBattle()
     public Button move1Button;
     public Button move2Button;
 
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
     //    StartCoroutine(Battle());
     //}
 
-    public void InitialiseBattle(Lad userLad, Lad computerLad)
+    public void InitialiseBattle(Lad userLad, Lad computerLad, int ladIndex)
     {
 
         // debugging to ensure moves are intact
@@ -56,10 +57,41 @@ public class GameManager : MonoBehaviour
         uiManager.InitialiseUI();
         uiManager.UpdateHPBars();
 
-        move1Button = FindObjectOfType<SelectionScript>().userMoveButton1.GetComponent<Button>();
-        move2Button = FindObjectOfType<SelectionScript>().userMoveButton2.GetComponent<Button>();
+        // Set up move buttons, already active so just getting their references
+        //move1Button = FindObjectOfType<SelectionScript>().move1Buttons[playerLadDropdown.value];
+        //move2Button = FindObjectOfType<SelectionScript>().move2Buttons[playerLadDropdown.value];
+
+        move1Button = FindObjectOfType<SelectionScript>().move1Buttons[ladIndex];
+        move2Button = FindObjectOfType<SelectionScript>().move2Buttons[ladIndex];
+
+        SetupMoveButtons();
 
         StartCoroutine(Battle());
+    }
+
+    private void SetupMoveButtons()
+    {
+        // removing previous listeners
+        move1Button.onClick.RemoveAllListeners();
+        move2Button.onClick.RemoveAllListeners();
+
+        // set text of buttons / not using because trying to use animated sprites instead
+        //move1Button.GetComponentInChildren<Text>().text = lad1.moves[0].moveName;
+        //move2Button.GetComponentInChildren<Text>().text = lad1.moves[1].moveName;
+
+        move1Button.onClick.AddListener(() => {
+            playerChosenMove = lad1.moves[0].moveName;
+            playerMoveChosen = true;
+        });
+
+        move2Button.onClick.AddListener(() => {
+            playerChosenMove = lad1.moves[0].moveName;
+            playerMoveChosen = true;
+        });
+
+        move1Button.interactable = true;
+        move2Button.interactable = true;
+        
     }
 
     private IEnumerator Battle()
@@ -123,16 +155,6 @@ public class GameManager : MonoBehaviour
         // Enable move buttons
         move1Button.interactable = true;
         move2Button.interactable = true;
-
-        move1Button.onClick.AddListener(() => {
-            playerChosenMove = move1Button.GetComponentInChildren<Text>().text;
-            playerMoveChosen = true;
-        });
-
-        move2Button.onClick.AddListener(() => {
-            playerChosenMove = move2Button.GetComponentInChildren<Text>().text;
-            playerMoveChosen = true;
-        });
 
         while (!playerMoveChosen)
         {
